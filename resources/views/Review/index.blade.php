@@ -2,7 +2,7 @@
 @section('main')
 
 <div class="pagetitle">
-  <h1>Expense</h1>
+  <h1>Review</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -41,8 +41,8 @@
                 <td>{{$d->name}}</td>
                 <td>{{$d->email}}</td>
                 <td>{{$d->tutorial->title}}</td>
-                <td>{{$d>review}}</td>
-                <td>{{$d>created_at}}</td>
+                <td>{{$d->review}}</td>
+                <td>{{$d->created_at}}</td>
                 <td>
                   <form action="{{route('review.destroy', $encrypted_id)}}" method="POST">
                     @method('delete')
