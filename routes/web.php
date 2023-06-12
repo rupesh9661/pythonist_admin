@@ -24,4 +24,5 @@ Route::post('/update_password', 'UserController@update_password')->name('update_
 Route::resource('/tutorial', 'TutorialController');
 Route::resource('/user', 'CustomUserController');
 Route::resource('/review', 'ReviewController');
+Route::resource('/tutorialepisode', 'TutorialEpisodeController');
 });

@@ -5,16 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Review extends Model
+class TutorialEpisode extends Model
 {
-   protected $table="reviews";
+   protected $table="tutorial_episodes";
    protected $guarded = [];
    public function tutorial(){
       return $this->hasOne(Tutorial::class,'id','tutorial_id');
-
-   }
-   public function tutorialepisode(){
-      return $this->hasOne(TutorialEpisode::class,'id','tutorial_episode_id');
-
    }
 }

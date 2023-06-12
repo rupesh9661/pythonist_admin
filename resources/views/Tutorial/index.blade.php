@@ -2,7 +2,7 @@
 @section('main')
 
 <div class="pagetitle">
-  <h1>Expense</h1>
+  <h1>Tutorial</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/">Home</a></li>

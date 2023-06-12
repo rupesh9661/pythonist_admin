@@ -2,11 +2,11 @@
 @section('main')
 
 <div class="pagetitle">
-  <h1>Review</h1>
+  <h1>Tutorial Videos</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/">Home</a></li>
-      <li class="breadcrumb-item">Review</li>
+      <li class="breadcrumb-item">Tutorial Videos</li>
     </ol>
   </nav>
 </div><!-- End Page Title -->
@@ -17,36 +17,33 @@
 
       <div class="card">
         <div class="table-responsive">
-          <h5 class="card-title ms-4">All Reviews</h5>
+          <h5 class="card-title ms-4">All Tutorials</h5>
         
           <!-- Table with stripped rows -->
           <table class="table table-bordered" id="datatable" style="width:100%">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Tutorial</th>
-                <th>Episode</th>
-                <th>Review</th>
-                <th>Created At</th>
+                <th>Title</th>
+                <th>Tutorial Title</th>
+                <th>Url</th>
+                <th>Description</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              @foreach($data as $d)
+              @foreach($tutorial as $data)
               @php
-              $encrypted_id=Crypt::encrypt($d->id)
+              $encrypted_id=Crypt::encrypt($data->id)
               @endphp
               <tr>
             
-                <td>{{$d->name}}</td>
-                <td>{{$d->email}}</td>
-                <td>{{$d->tutorial?$d->tutorial->title:''}}</td>
-                <td>{{$d->tutorialepisode?$d->tutorialepisode->title:''}}</td>
-                <td>{{$d->review}}</td>
-                <td>{{$d->created_at}}</td>
+                <td>{{$data->title}}</td>
+                <td>{{$data->tutorial?$data->tutorial->title:''}}</td>
+                <td>{{$data->url}}</td>
+                <td>{{$data->description}}</td>
                 <td>
-                  <form action="{{route('review.destroy', $encrypted_id)}}" method="POST">
+                  <a href="{{route('tutorialepisode.edit', $encrypted_id)}}" title="edit"><i class="ri-pencil-fill"></i></a>
+                  <form action="{{route('tutorialepisode.destroy', $encrypted_id)}}" method="POST">
                     @method('delete')
                     @csrf
                     <button type="submit"><i class="ri-delete-bin-line text-danger" title="delete"></i></button>

@@ -16,7 +16,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $data=Review::with('tutorial')->get();
+        $data=Review::with('tutorial', 'tutorialepisode')->get();
         return view('Review.index', compact('data'));
     }
 
@@ -43,6 +43,7 @@ class ReviewController extends Controller
             "email"=>$request->email,
             "review"=>$request->review,
             "tutorial_id"=>$request->tutorial_id,
+            "tutorial_episode_id"=>$request->tutorial_episode_id,
             "created_at"=>date('Y-m-d H:i:s'), 
         ]);
         if($result){

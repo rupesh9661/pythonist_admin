@@ -24,6 +24,16 @@
           <i class="bi bi-circle"></i><span>Add Tutorial </span>
         </a>
       </li>
+      <li>
+        <a href="{{url('tutorialepisode')}}">
+          <i class="bi bi-circle"></i><span>All Tutorial Videos</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{url('tutorialepisode/create')}}">
+          <i class="bi bi-circle"></i><span>Add Tutorial Video</span>
+        </a>
+      </li>
    
     </ul>
   </li>

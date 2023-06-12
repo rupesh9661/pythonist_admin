@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tutorial;
+use App\Models\TutorialEpisode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 
-class TutorialController extends Controller
+class TutorialEpisodeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +17,8 @@ class TutorialController extends Controller
      */
     public function index()
     {
-        $tutorial= Tutorial::all();
-        return view('Tutorial.index', compact('tutorial'));
+        $tutorial= TutorialEpisode::with('tutorial')->get();
+        return view('TutorialEpisode.index', compact('tutorial'));
     }
 
     /**
@@ -27,7 +28,8 @@ class TutorialController extends Controller
      */
     public function create()
     {
-        return view('Tutorial.create');
+        $data['tutorial']=Tutorial::all();
+        return view('TutorialEpisode.create', compact('data'));
     }
 
     /**
@@ -38,29 +40,18 @@ class TutorialController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->file('cover_image')) {
-            $image = $request->file('cover_image');
-            $img_name = $image->getClientOriginalName();
-            $img_final_name = "cover_image" . date("YmdHis") . $img_name;
-            // $path = public_path('images/profile_images/');
-            $path='images/cover_images/';
-            $image->move($path, $img_final_name);
-        }else{
-            $img_final_name='';
-        }
-        $result= Tutorial::create([
+        $result= TutorialEpisode::create([
             "title"=>$request->title,
+            "tutorial_id"=>$request->tutorial,
             "url"=>$request->url,
-            "price"=>$request->price,
             "description"=>$request->description,
             "created_by"=>Auth::user()->id,
             "updated_by"=>Auth::user()->id,
-            "cover_image"=>$img_final_name
         ]);
         if($result){
-            return redirect('tutorial')->with('success', 'Tutorial added successfully');
+            return redirect('tutorialepisode')->with('success', 'TutorialEpisode added successfully');
         }else{
-            return redirect('tutorial/create')->with('failure', 'something went wrong unable to add Tutorial');
+            return redirect('tutorialepisode/create')->with('failure', 'something went wrong unable to add TutorialEpisode');
         }
     }
 
@@ -84,8 +75,9 @@ class TutorialController extends Controller
     public function edit($id)
     {
         $decrypted_id=Crypt::decrypt($id);
-        $data['tutorial']=Tutorial::find($decrypted_id);
-        return view('Tutorial.edit', compact("data"));
+        $data['tutorial']=Tutorial::all();
+        $data['tutorialepisode']=TutorialEpisode::find($decrypted_id);
+        return view('TutorialEpisode.edit', compact("data"));
     }
 
     /**
@@ -100,25 +92,16 @@ class TutorialController extends Controller
      
         $update_arr=[
             "title"=>$request->title,
+            "tutorial_id"=>$request->tutorial,
             "url"=>$request->url,
-            "price"=>$request->price,
             "description"=>$request->description,
             "updated_by"=>Auth::user()->id,
         ];
-        if ($request->file('cover_image')) {
-            $image = $request->file('cover_image');
-            $img_name = $image->getClientOriginalName();
-            $img_final_name = "cover_image" . date("YmdHis") . $img_name;
-            // $path = public_path('images/profile_images/');
-            $path='images/cover_images/';
-            $image->move($path, $img_final_name);
-            $update_arr['cover_image']=$img_final_name;
-        }
-        $result= Tutorial::where('id', $id)->update($update_arr);
+        $result= TutorialEpisode::where('id', $id)->update($update_arr);
         if($result){
-            return redirect('tutorial')->with('success', 'data updated successfully');
+            return redirect('tutorialepisode')->with('success', 'data updated successfully');
         }else{
-            return redirect('tutorial')->with('failure', 'something went wrong unable to update data');
+            return redirect('tutorialepisode')->with('failure', 'something went wrong unable to update data');
         }
     }
 
@@ -131,11 +114,11 @@ class TutorialController extends Controller
     public function destroy($id)
     {
         $decrypted_id=Crypt::decrypt($id);
-        $result= Tutorial::destroy($decrypted_id);
+        $result= TutorialEpisode::destroy($decrypted_id);
         if($result){
-            return redirect('tutorial')->with('success', 'data deleted successfully');
+            return redirect('tutorialepisode')->with('success', 'data deleted successfully');
         }else{
-            return redirect('tutorial')->with('failure', 'something went wrong unable to delete data');
+            return redirect('tutorialepisode')->with('failure', 'something went wrong unable to delete data');
         }
     }
 }
